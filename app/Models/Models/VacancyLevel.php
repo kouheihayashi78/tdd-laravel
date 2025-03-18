@@ -18,12 +18,25 @@ class VacancyLevel extends Model
 
     public function mark()
     {
-        if(5 <= $this->remainingCount) {
-            return '◎';
-        } else if (1<= $this->remainingCount){
-            return '△';
+        // slug(文字列)に対応したmark(◎など)を定義
+        $marks = ['empty' => '×', 'few' => '△', 'enough' => '◎'];
+        // slugが返す値(文字列)を格納
+        $slug = $this->slug();
+        // assertでエラー対策
+        assert($marks[$slug], new \DomainException('invalid slug value.'));
+
+        // slugに対応したmarkを返却
+        return $marks[$slug];
+    }
+
+    public function slug()
+    {
+        if ($this->remainingCount === 0) {
+            return 'empty';
+        } else if ($this->remainingCount < 5) {
+            return 'few';
         } else {
-            return '×';
+            return 'enough';
         }
     }
 }

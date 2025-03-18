@@ -39,4 +39,48 @@ class VacancyLevelTest extends TestCase
             ]
         ];
     }
+
+
+    /**文字列の出し分けは以下のルールです（記号と同じ）。
+    残り枠数 0 = empty
+    残り枠数 1 以上 5 より下 = few
+    残り枠数が 5 以上 = enough
+    テストケースとして、
+
+    empty になるパターン: 空きなし
+    few になるパターン: 残りわずか
+    enough になるパターン: 空き十分
+    **/
+
+    /**
+     * @covers VacancyLevel::slug
+     * @param int $remainingCount 残り枚数
+     * @param string $expectedSlug 返ってくる値
+     * @dataProvider dataSlug
+     *
+     * @return void
+     */
+    public function testSlug(int $remainingCount, string $expectedSlug)
+    {
+        $level = new VacancyLevel($remainingCount);
+        $this->assertSame($expectedSlug, $level->slug());
+    }
+
+    public function dataSlug()
+    {
+        return [
+            '空きなし' => [
+                'remainingCount' => 0,
+                'expectedSlug' => 'empty',
+            ],
+            '残りわずか' => [
+                'remainingCount' => 4,
+                'expectedSlug' => 'few',
+            ],
+            '空き十分' => [
+                'remainingCount' => 5,
+                'expectedSlug' => 'enough',
+            ]
+        ];
+    }
 }
