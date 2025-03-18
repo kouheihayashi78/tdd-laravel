@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Models\VacancyLevel;
+use App\Models\VacancyLevel;
 use PHPUnit\Framework\TestCase;
 
 class VacancyLevelTest extends TestCase
